@@ -1,8 +1,29 @@
 <template name="layout">
-  <div class="container">
-    <div id="main" class="row-fluid">
-      <!-- {{> yield}} -->
-      hello!
+  <nav class="ui menu inverted navbar page grid" style="margin-bottom: 0px">
+    <a href="" class="brand item">FoodMe</a>
+    <div class="right menu">
+      <!-- TODO: Replace with Facebook button -->
+      <div class="item"><button class="ui green button">Sign in</button></div>
     </div>
-  </div>
+  </nav>
+
+  <main class="ui page grid">
+    <div class="row">
+      <div class="column">
+        {{> yield}}
+      </div>
+    </div>
+  </main>
+</template>
+
+<template name="landing">
+  here's the main landing page
+</template>
+
+<template name="new-restaurant">
+  find a restaurant to eat at
+</template>
+
+<template name="find-group">
+  find a group to eat with you lonely sob
 </template>
