@@ -8,5 +8,4 @@ meteor-platform
 autopublish
 insecure
 iron:router
-
 semantic:ui-css
