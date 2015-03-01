@@ -1,4 +1,6 @@
 <template name="restaurantList">
-  hi
-  <p>location: {{currentLocation}}</p>
+  <p>Local Restaurants</p>
+  {{#each localRestaurants}}
+    <p>{{name}}</p>
+  {{/each}}
 </template>
