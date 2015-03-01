@@ -1,3 +1,30 @@
 <template name="NewGroup">
-  <h1 class="ui header">New Group</h1>
+  <h1 class="ui header">Pick a restaurant</h1>
+
+  <div class="ui fluid form">
+    <div class="field">
+      <label>Restaurant Name</label>
+      <input type="text" name="restaurant-name" placeholder="veggie, burgers, tacos..." />
+    </div>
+    <div class="ui hidden divider"></div>
+    <div class="two fields">
+      <div class="field">
+        <label>Group Size</label>
+        <input type="number" name="group-size" min="2" step="2" />
+      </div>
+
+      <div class="field">
+        <label>Date/Time</label>
+        <input type="datetime-local" name="date-time" />
+      </div>
+    </div>
+
+    <div class="inline field">
+      <div class="ui checkbox checked">
+        <input type="checkbox" name="only-friends" />
+        <label>Restrict to Facebook friends</label>
+      </div>
+    </div>
+
+  </div>
 </template>
