@@ -2,9 +2,24 @@ Router.configure({
   layoutTemplate: "layout"
 });
 
-Router.route('/', 'landing');
-var pages = ['register', 'new-restaurant', 'find-group'];
+Router.route('/', 'Landing');
 
-pages.forEach(function(page) {
-  Router.route(page, page);
+Router.route('new-group', 'NewGroup');
+
+Router.route('find-group', function() {
+  this.render('FindGroup', 
+    { data: 
+      { groups: 
+        [{_id: 0, name: 'Robot Unicorn Attack', description: 'Pure hilarity'}, 
+         {_id: 1, name: 'Ben Stern\'s Economics class', description: 'Serious business'}]
+        .map(function(elem, index) {
+          elem.index = index + 1;
+          return elem;
+        })
+      }
+    });
+});
+
+Router.route('groups/:_id', function() {
+  this.render('group-page', {data: {a: 'b'}});
 });
