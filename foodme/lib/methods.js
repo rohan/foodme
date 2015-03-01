@@ -68,9 +68,9 @@ Meteor.methods({
     return _findGroups(name, datetime, size, timeRange, sizeRange);
   },
 
-  groupAdd: function(person, restaurant, sDate, sTime, sSize) {
+  groupAdd: function(person, restaurant, sDateTime, sSize) {
     var groups, retCode = 0;
-    var datetime = moment(sDate + ' ' + sTime, "YYYY-MM-DD HH:mm");
+    var datetime = moment(sDateTime, "YYYY-MM-DD HH:mm");
     var size = parseInt(sSize, 10);
 
     groups = _findGroups(restaurant, datetime, size, false, false);

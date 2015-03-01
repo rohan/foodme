@@ -49,10 +49,18 @@ Router.route('submit-group', {where: 'server'}).post(function() {
   var old_this = this;
   var name = body['restaurant-name'];
   var size = body['group-size'];
-  var date = body['date'];
-  var time = body['time'];
+  var date = body['date'] || '';
+  var time = body['time'] || '';
+  var datetime;
+  if (body['datetime']) {
+    datetime = moment(body.datetime * 1000).format("YYYY-MM-DD HH:mm");
+  } else {
+    datetime = date + ' ' + time;
+  }
   var user = body['user'];
-  Meteor.call("groupAdd", user, name, date, time, size, function(err, res) {
+
+  console.log(name, datetime, size);
+  Meteor.call("groupAdd", user, name, datetime, size, function(err, res) {
     var code = res["retCode"];
     var id = res["id"];
     if (code == 0 || code == 3) {
@@ -62,7 +70,7 @@ Router.route('submit-group', {where: 'server'}).post(function() {
       old_this.response.end();
     } else if (code == 1 || code == 2) {
       old_this.response.writeHead(302, {
-        'Location': '/group-list?name=' + name + '&size=' + size + '&datetime=' + date + ' ' + time + '&sizeRange=' + (code > 0) + '&timeRange=' + (code > 1)
+        'Location': '/group-list?name=' + name + '&size=' + size + '&datetime=' + datetime + '&sizeRange=' + (code > 0) + '&timeRange=' + (code > 1)
       });
       old_this.response.end();
     }

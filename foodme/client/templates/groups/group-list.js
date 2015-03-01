@@ -5,4 +5,4 @@ Template.groupList.helpers({
   time: function(datetime) {
     return moment(datetime * 1000).toString();
   }
-})
+});
