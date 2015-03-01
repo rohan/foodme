@@ -21,7 +21,7 @@ Meteor.methods({
 
   	// TODO: use $in to make time and size ranges
     var groups, retCode = 0;
-    const minTime = time - 15, maxTime + 15,
+    const minTime = time - 15, maxTime = time + 15,
     	minSize = size - 2, maxSize = size + 2;
 
     groups = Groups.find({restaurant: restaurant, time: time, size: size}); // findOne instead?
@@ -29,18 +29,18 @@ Meteor.methods({
     
     if (groups.count() == 0) {
     	retCode = 1;
-    	groups = Groups.find({
+    	groups = Groups.find(
     		{ $and : [
     		{restaurant: restaurant, time: time},
     		{size: {$gte: minSize}},
     		{size: {$lte: maxSize}}
     		]}
-    	})
+    	)
     }
 
     if (groups.count() == 0) {
     	retCode = 2;
-    	groups = Groups.find({
+    	groups = Groups.find(
     		{ $and : [
     		{restaurant: restaurant},
     		{time: {$gte: minTime}},
@@ -48,13 +48,13 @@ Meteor.methods({
     		{size: {$gte: minSize}},
     		{size: {$lte: maxSize}}
     		]}
-    	})
+    	)
     }
 
     if(groups.count() == 0) {
     	retCode = 3;
 
-    	Goups.insert({
+    	Groups.insert({
     		restaurant: restaurant,
     		time: time,
     		size: size,
