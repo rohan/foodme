@@ -28,12 +28,9 @@ Router.route('group/:_id', function() {
 Router.route('group-list', function() {
   var query = this.params.query;
   var old_this = this;
-  console.log("query object", query);
   Meteor.call("findGroups", query.name, parseInt(query.time, 10), 
               parseInt(query.size, 10), Boolean(query.timeRange), 
               Boolean(query.sizeRange), function(err, res) {
-                console.log(err);
-                console.log(res);
                 res = res.map(function(elem, index) {
                   elem.index = index + 1;
                   return elem;
@@ -55,7 +52,6 @@ Router.route('submit-group', {where: 'server'}).post(function() {
   var size = body['group-size'];
   var time = body['date-time'];
   var user = body['user'];
-  console.log("user :(", user);
   Meteor.call("groupAdd", user, name, time, size, function(err, res) {
     var code = res["retCode"];
     var id = res["id"];

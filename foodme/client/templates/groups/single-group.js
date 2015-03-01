@@ -25,11 +25,9 @@ function capitalizeFirstLetter(string) {
 }
 
 Template.singleGroup.rendered = function() {
-  console.log(this);
   if (this.data.atCapacity == true) {
     var people = this.data.people;
     var url = Meteor.call("createGM", this.data.name + "group", people, function(err, res) {
-      console.log("url:", res);
       Session.set("groupme", res);
     });
   }
