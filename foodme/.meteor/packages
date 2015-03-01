@@ -9,3 +9,6 @@ autopublish
 insecure
 iron:router
 semantic:ui-css
+accounts-facebook
+accounts-ui
+accounts-password
