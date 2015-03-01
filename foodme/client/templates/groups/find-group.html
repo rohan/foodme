@@ -1,0 +1,20 @@
+<template name="FindGroup">
+  <h1 class="ui header">Find a group</h1>
+
+  find a group to eat with you lonely sob
+
+  {{#each groups}}
+    <div class="ui card">
+      <div class="ui top left attached label">{{index}}</div>
+      <div class="content">
+        <a href="groups/{{_id}}" class="ui header">{{name}}</a>
+        <div class="description">{{description}}</div>
+      </div>
+
+      <div class="ui two bottom attached buttons">
+        <div class="ui green button"><i class="checkmark icon"></i></div>
+        <div class="ui red button"><i class="remove icon"></i></div>
+      </div>
+    </div>
+  {{/each}}
+</template>
