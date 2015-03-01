@@ -17,7 +17,11 @@ Meteor.methods({
     return res;
   },
 
-  groupAdd: function(person, restaurant, time, size) {
+  groupAdd: function(restaurant, time, size) {
+    console.log("hello!");
+
+    var person = this.userId !== null? this.userId : "";
+    console.log(person);
 
   	// TODO: use $in to make time and size ranges
     var groups, retCode = 0;
@@ -28,6 +32,7 @@ Meteor.methods({
     // TODO - add Meteor.userId() to the group^ here
     
     if (groups.count() == 0) {
+      console.log("couldn't find anyone with exact match");
     	retCode = 1;
     	groups = Groups.find(
     		{ $and : [
@@ -36,9 +41,14 @@ Meteor.methods({
     		{size: {$lte: maxSize}}
     		]}
     	)
+    } else {
+      console.log("found someone with exact match");
+      Groups.update({restaurant: restaurant, time: time, size: size}, {$addToSet: {people: person}});
+      return retCode; 
     }
 
     if (groups.count() == 0) {
+      console.log("couldn't find anyone with size in range")
     	retCode = 2;
     	groups = Groups.find(
     		{ $and : [
@@ -52,16 +62,17 @@ Meteor.methods({
     }
 
     if(groups.count() == 0) {
+      console.log("couldn't find anyone with time or size in range, inserting");
     	retCode = 3;
 
     	Groups.insert({
     		restaurant: restaurant,
     		time: time,
     		size: size,
-    		people: [Meteor.userId()]
+    		people: [person]
     	});
     }
 
-    return {groups: groups, code: retCode};
+    return retCode;
   }
 })
