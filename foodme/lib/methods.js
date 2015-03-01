@@ -18,9 +18,16 @@ Meteor.methods({
   },
 
   groupAdd: function(person, restaurant, time, size) {
-    var groups = Groups.find({restaurant: restaurant, time: time, size: size});
+  	// TODO: use $in to make time and size ranges
+    var groups = Groups.find({restaurant: restaurant, time: time, size: size}); // findOne instead?
+    // TODO - add Meteor.userId() to the group^ here
     if (groups.count() == 0) {
-    
+    	Goups.insert({
+    		restaurant: restaurant,
+    		time: time,
+    		size: size,
+    		people: [Meteor.userId()]
+    	});
     }
   }
 })
