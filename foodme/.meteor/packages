@@ -15,3 +15,5 @@ accounts-facebook
 accounts-ui
 accounts-password
 jquery
+tsega:bootstrap3-datetimepicker
+momentjs:moment

@@ -1,27 +1,36 @@
-var TIME_RANGE = 15;
 var SIZE_RANGE = 2;
 
-var _findGroups = function(name, time, size, timeRange, sizeRange) {
+var _findGroups = function(name, datetime, size, timeRange, sizeRange) {
+  if (!datetime._isAMomentObject) {
+    datetime = moment(datetime, "YYYY-MM-DD HH:mm");
+  }
+  var start = datetime.clone();
+  var end = datetime.clone();
+  start.subtract(15, 'minutes');
+  end.add(15, 'minutes');
+  console.log(start._d, start.unix());
+  console.log(datetime._d, datetime.unix());
+  console.log(end._d, end.unix());
   if (!timeRange && !sizeRange) {
-    return Groups.find({restaurant: name, time: time, size: size}).fetch();
+    return Groups.find({restaurant: name, datetime: datetime.unix(), size: size}).fetch();
   } else if (!timeRange && sizeRange) {
     return Groups.find({$and : [
-      {restaurant: name, time: time},
-      {size: {$gte: size - SIZE_RANGE, $lte: size + SIZE_RANGE}}
+        {restaurant: name, datetime: datetime.unix()},
+        {size: {$gte: size - SIZE_RANGE, $lte: size + SIZE_RANGE}}
       ]
     }).fetch();
   } else if (timeRange && !sizeRange) {
     // this never happens
     return Groups.find({ $and : [
-      {restaurant: name, size: size},
-      {time: {$gte: time - TIME_RANGE, $lte: time + TIME_RANGE}}
+        {restaurant: name, size: size},
+        {datetime: {$gte: start.unix(), $lte: end.unix()}}
       ]
     }).fetch();   
   } else {
     return Groups.find({ $and : [
-      {restaurant: name},
-      {time: {$gte: time - TIME_RANGE, $lte: time + TIME_RANGE}},
-      {size: {$gte: size - SIZE_RANGE, $lte: size + SIZE_RANGE}}
+        {restaurant: name},
+        {datetime: {$gte: start.unix(), $lte: end.unix()}},
+        {size: {$gte: size - SIZE_RANGE, $lte: size + SIZE_RANGE}}
       ]
     }).fetch();
   }
@@ -55,24 +64,22 @@ Meteor.methods({
     return res.share_url;
   },
 
-  findGroups: function(name, time, size, timeRange, sizeRange) {
-    var out = _findGroups(name, time, size, timeRange, sizeRange);
-    return out;
+  findGroups: function(name, datetime, size, timeRange, sizeRange) {
+    return _findGroups(name, datetime, size, timeRange, sizeRange);
   },
 
-  groupAdd: function(person, restaurant, sTime, sSize) {
-
+  groupAdd: function(person, restaurant, sDate, sTime, sSize) {
     var groups, retCode = 0;
-    var time = parseInt(sTime, 10);
+    var datetime = moment(sDate + ' ' + sTime, "YYYY-MM-DD HH:mm");
     var size = parseInt(sSize, 10);
 
-    groups = _findGroups(restaurant, time, size, false, false);
+    groups = _findGroups(restaurant, datetime, size, false, false);
     // TODO - add Meteor.userId() to the group^ here
     
     if (groups.length == 0) {
       console.log("couldn't find any groups which matched exactlyish");
       retCode = 1;
-      groups = _findGroups(restaurant, time, size, false, true);
+      groups = _findGroups(restaurant, datetime, size, false, true);
     } else {
       console.log("found a group which matched exactly", groups);
       var group_id = groups[0]._id;
@@ -80,22 +87,23 @@ Meteor.methods({
       if (Groups.findOne(group_id).people.length == Groups.findOne(group_id).size) {
         Groups.update({_id: group_id}, {$set: {atCapacity: true}});
       }
+
       return {id: group_id, retCode: retCode}; 
     }
 
     if (groups.length == 0) {
       console.log("couldn't find any groups with size in the range")
       retCode = 2;
-      groups = _findGroups(restaurant, time, size, true, true);
+      groups = _findGroups(restaurant, datetime, size, true, true);
     }
 
     if (groups.length == 0) {
-      console.log("couldn't find any groups with time or size in range, inserting");
+      console.log("couldn't find any groups with datetime or size in range, inserting");
       retCode = 3;
 
       var id = Groups.insert({
         restaurant: restaurant,
-        time: time,
+        datetime: datetime.unix(),
         size: size,
         people: [person],
         atCapacity: false
@@ -104,7 +112,6 @@ Meteor.methods({
     }
 
     var group_id = groups[0]._id;
-    var out = {id: group_id, retCode: retCode};
-    return out;
+    return {id: group_id, retCode: retCode};
   }
 })

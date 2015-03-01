@@ -1,7 +1,8 @@
-<template name="layout">
+<head>
+  <title>FoodMe!</title>
+</head>
 
-  <script src="layout.js"></script>
-  
+<template name="layout">
   <nav class="ui menu inverted navbar page grid" style="margin-bottom: 0px">
     <a href="/" class="brand item">FoodMe</a>
     <div class="right menu">
@@ -36,20 +37,5 @@
     <div class="column">
       <a href="find-group" class="ui primary button">The Blue Pill</a>
     </div>
-
-    <div class="column">
-      {{> time_picker}}
-    </div>
   </div>
-</template>
-
-<template name="time_picker">
-  <input class="timepicker" />
-  <script type="text/javascript">
-      (function() {
-        $('.timepicker').pickatime();
-      })();
-  </script>
-  <li>stuff</li>
-  <li>{{text}}</li>
 </template>
