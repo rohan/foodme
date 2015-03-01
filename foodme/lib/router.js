@@ -37,32 +37,17 @@ Router.route('group-list', function() {
 Router.route('submit-group', {where: 'server'}).post(function() {
   var body = this.request.body;
   var old_this = this;
-  Meteor.call("groupAdd", body['restaurant-name'], body['group-size'], body['date-time'], function(err, res) {
-
-    var iSize = parseInt(body['group-size'], 10),
-    	iTime = parseInt(body['date-time'], 10),
-    	maxSize = iSize + 2, minSize = iSize - 2,
-    	maxTime = iTime - 15, minTime = iTime + 15;
-  	var idTemp = 0;
+  var name = body['restaurant-name'];
+  var size = body['group-size'];
+  var time = body['date-time'];
+  Meteor.call("groupAdd",  name, size, time, function(err, res) {
+    var queryObj = {query: {name: name, size: size, time: time, sizeRange: res > 0, timeRange: res > 1}};
     if (res == 0 || res == 3) {
-      	Router.go('group', {id: idTemp}, {});
+      	Router.go('group', {id: 0}, {}); //TODO
     } else if(res == 1){
-      	Router.go('group-list', {}, {query: { $and : [
-     		{restaurant: body['restaurant-name']},
-     		{time: iTime},
-          	{size: {$gte: minSize}},
-          	{size: {$lte: maxSize}}
-     	]}
-     	});
+      	Router.go('group-list', {}, queryObj);
     } else if (res == 2){
-      	Router.go('group-list', {}, {query: { $and : [
-     		{restaurant: body['restaurant-name']},
-     		{time: {$gte: minTime}},
-          	{time: {$lte: maxTime}},
-          	{size: {$gte: minSize}},
-          	{size: {$lte: maxSize}}
-     	]}
-     	});
+      	Router.go('group-list', {}, queryObj);
     }
   });
 });
