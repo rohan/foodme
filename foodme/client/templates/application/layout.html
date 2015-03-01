@@ -17,7 +17,7 @@
   </main>
 </template>
 
-<template name="Landing">
+<template name="landing">
   <h1 class="ui header">FoodMe</h1>
   FoodMe is a great way to try out a new restaurant without the hassle of 
   managing a group of people. With FoodMe, just set up a group and make new 
@@ -25,38 +25,14 @@
 
   <div class="ui two column stackable center aligned grid segment">
     <div class="column">
-      <a href="new-group" class="ui primary button">Find a cool restaurant!</a>
+      <a href="new-group" class="ui primary button">Pick a cool restaurant!</a>
     </div>
 
     <div class="ui vertical divider">or</div>
     
     <div class="column">
-      <a href="find-group" class="ui primary button">Find a cool group</a>
+      <a href="find-group" class="ui primary button">The Blue Pill</a>
     </div>
   </div>
 </template>
 
-<template name="NewGroup">
-  <h1 class="ui header">New Group</h1>
-</template>
-
-<template name="FindGroup">
-  <h1 class="ui header">Find a group</h1>
-
-  find a group to eat with you lonely sob
-
-  {{#each groups}}
-    <div class="ui card">
-      <div class="ui top left attached label">{{index}}</div>
-      <div class="content">
-        <a href="groups/{{_id}}" class="ui header">{{name}}</a>
-        <div class="description">{{description}}</div>
-      </div>
-
-      <div class="ui two bottom attached buttons">
-        <div class="ui green button"><i class="checkmark icon"></i></div>
-        <div class="ui red button"><i class="remove icon"></i></div>
-      </div>
-    </div>
-  {{/each}}
-</template>
