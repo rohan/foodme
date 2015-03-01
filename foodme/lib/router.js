@@ -34,8 +34,18 @@ Router.route('group-list', function() {
               Boolean(query.sizeRange), function(err, res) {
                 console.log(err);
                 console.log(res);
+                res = res.map(function(elem, index) {
+                  elem.index = index + 1;
+                  return elem;
+                });
                 old_this.render('groupList', {data: res});
               });
+});
+
+Router.route('single-group/:_id', function() {
+  var _id = this.params._id;
+  var group = Groups.findOne(_id);
+  this.render('singleGroup', {data: group});
 });
 
 Router.route('submit-group', {where: 'server'}).post(function() {
@@ -44,20 +54,23 @@ Router.route('submit-group', {where: 'server'}).post(function() {
   var name = body['restaurant-name'];
   var size = body['group-size'];
   var time = body['date-time'];
-  Meteor.call("groupAdd", name, size, time, function(err, res) {
+  var user = body['user'];
+  console.log("user :(", user);
+  Meteor.call("groupAdd", user, name, size, time, function(err, res) {
     var code = res["retCode"];
     var id = res["id"];
     var queryObj = {query: {name: name, size: size, time: time, sizeRange: code > 0, timeRange: code > 1}};
     if (code == 0 || code == 3) {
-      	Router.go('show-group', {id: id}, {}); //TODO
-    } else if(code == 1) {
+      	old_this.response.writeHead(302, {
+        'Location': '/single-group/' + id
+      });
+      old_this.response.end();
+    } else if (code == 1 || code == 2) {
       old_this.response.writeHead(302, {
         'Location': '/group-list?name=' + name + '&size=' + size + 
             '&time=' + time + '&sizeRange=' + (code > 0) + '&timeRange=' + (code > 1)
       });
       old_this.response.end();
-    } else if (code == 2){
-      	Router.go('group-list', queryObj, {});
     }
   });
 });

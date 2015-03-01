@@ -1,4 +1,7 @@
 Template.newGroup.helpers({
+  id: function() {
+    return Meteor.userId();
+  },
   retCode: function() {
     return Session.get("retCode");
   },

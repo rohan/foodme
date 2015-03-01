@@ -1,0 +1,19 @@
+<template name="singleGroup">
+  {{#unless atCapacity}}
+    <h1 class="ui header">We're creating your group. Here's who's here so far.</h1>
+    <ul>
+      {{#each people}}
+        <div class="ui segment">
+          <div class="item">
+            <div class="content">
+              <h2 class="header">{{peopleMap this}}</h2>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h1 class="ui header">Reached capacity! You're good to go!</h1>
+    <p class="ui text">Join your GroupMe <a href={{createGM}}>here</a>.</p>
+  {{/unless}}
+</template>
