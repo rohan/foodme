@@ -7,10 +7,8 @@ Template.restaurantList.helpers({
 });
 
 Template.restaurantList.created = function() {
-  console.log("Hello!");
   navigator.geolocation.getCurrentPosition(function(loc) {
     Meteor.call("getLocalRestaurants", loc.coords, function(err, res) {
-      console.log("result:", res);
       Session.set("restaurants", res.businesses);
     });
   });
