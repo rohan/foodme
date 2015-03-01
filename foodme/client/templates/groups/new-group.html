@@ -13,15 +13,20 @@
       <input type="text" name="restaurant-name" placeholder="veggie, burgers, tacos..." />
     </div>
     <div class="ui hidden divider"></div>
-    <div class="two fields">
+    <div class="three fields">
       <div class="field">
         <label>Group Size</label>
         <input type="number" name="group-size" min="2" />
       </div>
 
       <div class="field">
-        <label>Date/Time</label>
-        <input type="number" name="date-time" />
+        <label>Date</label>
+        <input type="date" name="date" />
+      </div>
+
+      <div class="field">
+        <label>Time</label>
+        <input type="time" name="time" />
       </div>
     </div>
 
@@ -35,4 +40,11 @@
     <input type="text" style="display: none;" value="{{id}}" name="user"/>
     <input type="submit" class="ui submit primary button" value="Go!"/>
   </form>
+</template>
+
+<template name="date">
+  <div class="input-group datetimepicker">
+    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+    <input class="set-due-date form-control" type="text"/>
+  </div>
 </template>

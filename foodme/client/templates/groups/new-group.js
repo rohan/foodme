@@ -1,3 +1,7 @@
+Template.date.rendered = function() {
+  $('.datetimepicker').datetimepicker();
+}
+
 Template.newGroup.helpers({
   id: function() {
     return Meteor.userId();

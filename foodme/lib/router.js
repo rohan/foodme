@@ -28,9 +28,8 @@ Router.route('group/:_id', function() {
 Router.route('group-list', function() {
   var query = this.params.query;
   var old_this = this;
-  Meteor.call("findGroups", query.name, parseInt(query.time, 10), 
-              parseInt(query.size, 10), Boolean(query.timeRange), 
-              Boolean(query.sizeRange), function(err, res) {
+  Meteor.call("findGroups", query.name, decodeURIComponent(query.datetime), parseInt(query.size, 10), 
+        Boolean(query.timeRange), Boolean(query.sizeRange), function(err, res) {
                 res = res.map(function(elem, index) {
                   elem.index = index + 1;
                   return elem;
@@ -50,12 +49,12 @@ Router.route('submit-group', {where: 'server'}).post(function() {
   var old_this = this;
   var name = body['restaurant-name'];
   var size = body['group-size'];
-  var time = body['date-time'];
+  var date = body['date'];
+  var time = body['time'];
   var user = body['user'];
-  Meteor.call("groupAdd", user, name, time, size, function(err, res) {
+  Meteor.call("groupAdd", user, name, date, time, size, function(err, res) {
     var code = res["retCode"];
     var id = res["id"];
-    var queryObj = {query: {name: name, size: size, time: time, sizeRange: code > 0, timeRange: code > 1}};
     if (code == 0 || code == 3) {
       	old_this.response.writeHead(302, {
         'Location': '/single-group/' + id
@@ -63,14 +62,9 @@ Router.route('submit-group', {where: 'server'}).post(function() {
       old_this.response.end();
     } else if (code == 1 || code == 2) {
       old_this.response.writeHead(302, {
-        'Location': '/group-list?name=' + name + '&size=' + size + 
-            '&time=' + time + '&sizeRange=' + (code > 0) + '&timeRange=' + (code > 1)
+        'Location': '/group-list?name=' + name + '&size=' + size + '&datetime=' + date + ' ' + time + '&sizeRange=' + (code > 0) + '&timeRange=' + (code > 1)
       });
       old_this.response.end();
     }
   });
-});
-
-Router.route('groups/:_id', function() {
-  this.render('group-page', {data: {a: 'b'}});
 });
