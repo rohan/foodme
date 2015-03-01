@@ -16,4 +16,11 @@ Meteor.methods({
     var res = a_search({term: "food", ll: ll, limit: 5});
     return res;
   },
+
+  groupAdd: function(person, restaurant, time, size) {
+    var groups = Groups.find({restaurant: restaurant, time: time, size: size});
+    if (groups.count() == 0) {
+    
+    }
+  }
 })
