@@ -25,10 +25,12 @@ Meteor.methods({
 
   	// TODO: use $in to make time and size ranges
     var groups, retCode = 0;
-    var minTime = time - 15;
-    var maxTime = time + 15;
-    var minSize = size - 2;
-    var maxSize = size + 2;
+    var iTime = parseInt(time, 10),
+    	iSize = parseInt(size, 10);
+    var minTime = iTime - 15;
+    var maxTime = iTime + 15;
+    var minSize = iSize - 2;
+    var maxSize = iSize + 2;
 
     groups = Groups.find({restaurant: restaurant, time: time, size: size}); // findOne instead?
     // TODO - add Meteor.userId() to the group^ here
