@@ -1,16 +1,17 @@
 <template name="groupList">
   <h1 class="ui header">We weren't able to find a perfect match, but consider these alternatives.</h1>
   {{#each this}}
-    <form method="POST">
+    <form action="submit-group" method="POST">
       <div class="ui card">
         <div class="ui top left attached label">{{index}}</div>
         <div class="content">
           <h2 class="ui header">{{restaurant}}</h2>
           <div class="description">Size: {{size}} | Time: {{time}}</div>
         </div>
-        <input style="display: none;" value={{restaurant}} name="name" />
-        <input style="display: none;" value={{size}} name="size" />
-        <input style="display: none;" value={{time}} name="time" />
+        <input style="display: none;" value={{restaurant}} name="restaurant-name" />
+        <input style="display: none;" value={{size}} name="group-size" />
+        <input style="display: none;" value={{time}} name="date-time" />
+        <input style="display: none;" value={{id}} name="user" />
 
 
         <div class="ui two bottom attached buttons">
