@@ -1,17 +1,23 @@
 <template name="groupList">
   <h1 class="ui header">We weren't able to find a perfect match, but consider these alternatives.</h1>
   {{#each this}}
-    <div class="ui card">
-      <div class="ui top left attached label">{{index}}</div>
-      <div class="content">
-        <a href="groups/{{_id}}" class="ui header">{{restaurant}}</a>
-        <div class="description">Size: {{size}} | Time: {{time}}</div>
-      </div>
+    <form method="POST">
+      <div class="ui card">
+        <div class="ui top left attached label">{{index}}</div>
+        <div class="content">
+          <h2 class="ui header">{{restaurant}}</h2>
+          <div class="description">Size: {{size}} | Time: {{time}}</div>
+        </div>
+        <input style="display: none;" value={{restaurant}} name="name" />
+        <input style="display: none;" value={{size}} name="size" />
+        <input style="display: none;" value={{time}} name="time" />
 
-      <div class="ui two bottom attached buttons">
-        <div class="ui green button"><i class="checkmark icon"></i></div>
-        <div class="ui red button"><i class="remove icon"></i></div>
+
+        <div class="ui two bottom attached buttons">
+          <input type="submit" class="ui green button" value="Go!"/>
+          <div class="ui red button"><i class="remove icon"></i></div>
+        </div>
       </div>
-    </div>
+    </form>
   {{/each}}
 </template>

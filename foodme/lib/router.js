@@ -56,7 +56,7 @@ Router.route('submit-group', {where: 'server'}).post(function() {
   var time = body['date-time'];
   var user = body['user'];
   console.log("user :(", user);
-  Meteor.call("groupAdd", user, name, size, time, function(err, res) {
+  Meteor.call("groupAdd", user, name, time, size, function(err, res) {
     var code = res["retCode"];
     var id = res["id"];
     var queryObj = {query: {name: name, size: size, time: time, sizeRange: code > 0, timeRange: code > 1}};
