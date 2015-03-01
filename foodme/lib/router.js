@@ -32,8 +32,8 @@ Router.route('submit-group', {where: 'server'}).post(function() {
     		iTime = parseInt(body['date-time'], 10),
     		maxSize = iSize + 2, minSize = iSize - 2,
     		maxTime = iTime - 15, minTime = iTime + 15;
-      	Router.go('group-list', {}, {query: { $and [
-     		{restaurant: body['restaurant-name'},
+      	Router.go('group-list', {}, {query: { $and : [
+     		{restaurant: body['restaurant-name']},
      		// TODO - only include the time range if res == 2
      		{time: {$gte: minTime}},
           	{time: {$lte: maxTime}},
