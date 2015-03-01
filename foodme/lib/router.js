@@ -2,12 +2,12 @@ Router.configure({
   layoutTemplate: "layout"
 });
 
-Router.route('/', 'Landing');
+Router.route('/', 'landing');
 
-Router.route('new-group', 'NewGroup');
+Router.route('new-group', 'newGroup');
 
 Router.route('find-group', function() {
-  this.render('FindGroup', 
+  this.render('findGroup', 
     { data: 
       { groups: 
         [{_id: 0, name: 'Robot Unicorn Attack', description: 'Pure hilarity'}, 
