@@ -25,44 +25,46 @@ Meteor.methods({
 
   	// TODO: use $in to make time and size ranges
     var groups, retCode = 0;
-    const minTime = time - 15, maxTime = time + 15,
-    	minSize = size - 2, maxSize = size + 2;
+    var minTime = time - 15;
+    var maxTime = time + 15;
+    var minSize = size - 2;
+    var maxSize = size + 2;
 
     groups = Groups.find({restaurant: restaurant, time: time, size: size}); // findOne instead?
     // TODO - add Meteor.userId() to the group^ here
     
     if (groups.count() == 0) {
-      console.log("couldn't find anyone with exact match");
+      console.log("couldn't find any groups which matched exactly");
     	retCode = 1;
     	groups = Groups.find(
     		{ $and : [
-    		{restaurant: restaurant, time: time},
-    		{size: {$gte: minSize}},
-    		{size: {$lte: maxSize}}
+          {restaurant: restaurant, time: time},
+          {size: {$gte: minSize}},
+          {size: {$lte: maxSize}}
     		]}
     	)
     } else {
-      console.log("found someone with exact match");
+      console.log("found a group which matched exactly", groups.fetch());
       Groups.update({restaurant: restaurant, time: time, size: size}, {$addToSet: {people: person}});
       return retCode; 
     }
 
     if (groups.count() == 0) {
-      console.log("couldn't find anyone with size in range")
+      console.log("couldn't find any groups with size in the range")
     	retCode = 2;
     	groups = Groups.find(
     		{ $and : [
-    		{restaurant: restaurant},
-    		{time: {$gte: minTime}},
-    		{time: {$lte: maxTime}},
-    		{size: {$gte: minSize}},
-    		{size: {$lte: maxSize}}
+          {restaurant: restaurant},
+          {time: {$gte: minTime}},
+          {time: {$lte: maxTime}},
+          {size: {$gte: minSize}},
+          {size: {$lte: maxSize}}
     		]}
     	)
     }
 
     if(groups.count() == 0) {
-      console.log("couldn't find anyone with time or size in range, inserting");
+      console.log("couldn't find any groups with time or size in range, inserting");
     	retCode = 3;
 
     	Groups.insert({
