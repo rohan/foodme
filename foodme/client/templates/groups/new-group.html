@@ -7,7 +7,7 @@
 
   <h1 class="ui header">Pick a restaurant</h1>
 
-  <form class="ui fluid form">
+  <form class="ui fluid form" action="submit-group" method="POST">
     <div class="field">
       <label>Restaurant Name</label>
       <input type="text" name="restaurant-name" placeholder="veggie, burgers, tacos..." />
@@ -16,7 +16,7 @@
     <div class="two fields">
       <div class="field">
         <label>Group Size</label>
-        <input type="number" name="group-size" min="2" step="2" />
+        <input type="number" name="group-size" min="2" />
       </div>
 
       <div class="field">

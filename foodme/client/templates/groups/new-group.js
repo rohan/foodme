@@ -17,15 +17,12 @@ Template.newGroup.helpers({
   }
 });
 
-
-
 Template.newGroup.events({
   "click .checkbox" : function(evt, template) {
     template.$('input[type=checkbox]').click();
   },
 
-  "submit form": function(e) {
-    e.preventDefault();
+  /*"submit form": function(e) {
     var target = e.target; // restaurant-name, group-size, date-time, only-friends
     var restaurant_name = $(target["restaurant-name"]).val();
     var group_size = $(target["group-size"]).val();
@@ -39,7 +36,5 @@ Template.newGroup.events({
     Meteor.call("groupAdd", restaurant_name, group_size, date_time, function (err, res) {
       Session.set("retCode", res);
     });
-
-    return false;
-  }
+  }*/
 });
