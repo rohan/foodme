@@ -1,5 +1,9 @@
 Template.restaurantList.helpers({
   currentLocation: function() {
-    return Meteor.call("getLocalRestaurants");
+    navigator.geolocation.getCurrentPosition(function(loc) {
+      console.log(loc);
+      Meteor.call("getLocalRestaurants", loc.coords);
+    });
+    //Meteor.call("getLocalRestaurants");
   }
 })

@@ -1,31 +1,24 @@
 Meteor.methods({
-  getLocalRestaurants: function(e) {
-    var startPos = undefined;
+  getLocalRestaurants: function(loc) {
+    console.log("in a meteor method");
+    console.log("startPos:", loc);
 
-    currentLocation = function() {
-      var geoOptions = {
-        enableHighAccuracy: false
-      }
+    var url = "http://api.yelp.com/v2/search";
+    var auth = Accounts.loginServiceConfiguration.findOne({service: 'yelp'});
 
-      var geoSuccess = function(position) {
-        startPos = position;
-      };
+    var Yelper = Meteor.npmRequire("yelp");
+    var yelper = new Yelper();
 
-      var geoError = function(error) {
-        console.log('Error occurred. Error code: ' + error.code);
-        // error.code can be:
-        //   0: unknown error
-        //   1: permission denied
-        //   2: position unavailable (error response from location provider)
-        //   3: timed out
-      };
+    var yelp = yelper.createClient({
+      consumer_key: auth.consumerKey, 
+      consumer_secret: auth.consumerSecret,
+      token: auth.accessToken,
+      token_secret: auth.accessTokenSecret,
+    });
 
-      navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-    }();
-
-    while (startPos === undefined) {
-      console.log("waiting, startPos: ", startPos);
-    }
-    console.log("finished!");
+    yelp.search({term: "food", location: "Montreal"}, function(error, data) {
+      console.log(error);
+      console.log(data);
+    });
   }
 })
