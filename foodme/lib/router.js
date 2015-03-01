@@ -20,6 +20,20 @@ Router.route('find-group', function() {
     });
 });
 
+Router.route('group/:_id', function() {
+  var group = Groups.find({_id: this.params._id});
+  this.render('showGroup', {data: group});
+});
+
+Router.route('group-list', function() {
+  var query = this.params.query;
+  Meteor.call("findGroups", query.name, parseInt(query.time, 10), 
+              parseInt(query.size, 10), Boolean(query.timeRange), 
+              Boolean(query.sizeRange), function(groups) {
+                this.render('groupList', {data: groups}); 
+              });
+});
+
 Router.route('submit-group', {where: 'server'}).post(function() {
   var body = this.request.body;
   var old_this = this;
