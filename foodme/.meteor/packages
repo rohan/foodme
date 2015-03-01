@@ -8,9 +8,9 @@ meteor-platform
 autopublish
 insecure
 iron:router
+meteorhacks:npm
+npm-container
+semantic:ui-css
 accounts-facebook
 accounts-ui
-meteorhacks:npm
-
-
-npm-container
+accounts-password
