@@ -8,9 +8,15 @@
   <h1 class="ui header">Pick a restaurant</h1>
 
   <form class="ui fluid form" action="submit-group" method="POST">
-    <div class="field">
-      <label>Restaurant Name</label>
-      <input type="text" name="restaurant-name" placeholder="veggie, burgers, tacos..." />
+    <div class="two fields">
+      <div class="field">
+        <label>Restaurant Name</label>
+        <input type="text" name="restaurant-name" placeholder="veggie, burgers, tacos..." />
+      </div>
+      <div class="field">
+        <label>...or take a look at some suggestions</label>
+        {{> restaurantList}}
+      </div>
     </div>
     <div class="ui hidden divider"></div>
     <div class="three fields">

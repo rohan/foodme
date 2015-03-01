@@ -1,6 +1,16 @@
 <template name="restaurantList">
-  <p>Local Restaurants</p>
-  {{#each localRestaurants}}
-    <p>{{name}}</p>
-  {{/each}}
+  <table class="ui table">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each localRestaurants}}
+        <tr>
+          <td>{{name}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>
